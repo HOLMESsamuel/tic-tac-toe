@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+body {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#btnStart {
+    margin-bottom: 20px;
+    background-color: blue;
+}
+
+#tic-tac-toe {
+    display: inline-block;
+    background-color: black;
+    margin: -10px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 10px solid white;
+}
+
+.row {
+    margin: 0;
+}
+
+.empty {
+    cursor: pointer;
+}
+
+.col {
+    font-family: 'Quicksand', sans-serif;
+    display: inline-block;
+    font-size: 100px;
+    font-style: bold;
+    height: 150px;
+    width: 150px;
+    padding: 0;
+    background-color: white;
+    margin: 4px;
+    border-radius: 10%;
+}
+
+.col[data-col='2'] {
+    margin-right: 0px;
+    border-bottom-right-radius: 0%;
+    border-top-right-radius: 0%;
+}
+
+.col[data-col='0'] {
+    margin-left: 0px;
+    border-bottom-left-radius: 0%;
+    border-top-left-radius: 0%;
+}
+
+.col[data-row='0'] {
+    margin-top: 0px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+}
+
+.col[data-row='2'] {
+    margin-bottom: 0px;
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+
+
+/*the following part concers the modal menu*/
+
+.modal-body {
+    text-align: left;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+input[type=radio]+label:before {
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-top: -3px;
+    margin-right: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+input[type=radio]:checked+label:before {
+    background: rgb(146, 194, 125);
+    border-color: #B6D7A8;
+    box-shadow: inset 0px 0px 0px 2px #fff;
+}
