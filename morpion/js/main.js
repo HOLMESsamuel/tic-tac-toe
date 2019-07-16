@@ -78,23 +78,39 @@ class grid {
         return false;
     }
 
-    AIturn() {
-
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                var cell = cell = $(`.col[data-col='${i}'][data-row='${j}']`);
+    freeCells() {
+        var freeCells = [];
+        for (let row = 0; row < this.ROWS; row++) {
+            for (let col = 0; col < this.COLS; col++) {
+                var cell = $(`.col[data-col='${col}'][data-row='${row}']`);
                 if (cell.hasClass("empty")) {
-                    cell.html((this.player === 'O') ? "X" : "O");
-                    cell.addClass((this.player === 'O') ? "X" : "O");
-                    cell.removeClass("empty");
-                    if (this.checkForWinner(j, i, (this.player === 'O') ? "X" : "O")) {
-                        $(this.selector).off("click");
-                        this.gameNumber = 0;
-                        console.log("AI");
-                    }
-                    return "done";
+                    freeCells.push(cell);
                 }
             }
+        }
+        return freeCells;
+    }
+
+    evaluateScore() {
+
+    }
+
+    AIturn() {
+        const cells = this.freeCells();
+        const n = cells.length
+        if (n == 0) {
+            return "done";
+        }
+        const choice = Math.floor(Math.random() * n);
+        const cell = cells[choice];
+        cell.html((this.player === 'O') ? "X" : "O");
+        cell.addClass((this.player === 'O') ? "X" : "O");
+        cell.removeClass("empty");
+        const row = cell.data("row");
+        const col = cell.data("col");
+        if (this.checkForWinner(row, col, (this.player === 'O') ? "X" : "O")) {
+            $(this.selector).off("click");
+            console.log("AI");
         }
     }
 
@@ -122,10 +138,8 @@ class grid {
             $(this).removeClass("empty");
             if (that.checkForWinner(row, col, that.player)) {
                 $board.off("click");
-                that.gameNumber = 0;
                 console.log("player");
-            }
-            if (that.mode == "AI") {
+            } else if (that.mode == "AI") {
                 that.AIturn();
             } else {
                 that.player = (that.player === 'O') ? "X" : "O";
@@ -140,6 +154,7 @@ $(document).ready(function() {
     $grid = new grid("#tic-tac-toe");
     $("#begin").click(function() {
         $("#tic-tac-toe").empty();
+        $("#tic-tac-toe").off("click");
         $grid.createGrid();
         symbol = $('input[name=inlineRadioOptions2]:checked').val();
         if ($('input[name=inlineRadioOptions1]:checked').val() == "AI") {
@@ -147,9 +162,12 @@ $(document).ready(function() {
         } else {
             $grid.setMode("2players", symbol);
         }
-        if ($grid.gameNumber == 0) {
-            $grid.createEventListeners();
-            $grid.gameNumber += 1;
+
+        $grid.createEventListeners();
+        if ($grid.mode == "AI" && Math.random() > 0.5) {
+            $grid.AIturn();
         }
+
+
     });
 });
